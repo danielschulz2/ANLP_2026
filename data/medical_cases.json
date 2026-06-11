@@ -1,0 +1,36 @@
+{
+  "project_name": "Patient Portal Auto-Simplifier",
+  "few_shot_examples": [
+    {
+      "input": "Patient presents with acute pharyngitis.",
+      "output": "The patient has a severe sore throat."
+    },
+    {
+      "input": "Myocardial infarction confirmed via ECG.",
+      "output": "A heart attack was confirmed by checking the heart's electrical activity."
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "M001",
+      "clinical_notes": "Patient diagnosed with essential hypertension. Prescribed 5mg Amlodipine daily. Advised to reduce sodium intake to <1500mg/day and engage in 150 minutes of moderate aerobic activity weekly.",
+      "target_audience": "adult",
+      "target_language": "English",
+      "extract_glossary": true
+    },
+    {
+      "case_id": "M002",
+      "clinical_notes": "Pediatric patient exhibits signs of exercise-induced bronchospasm. Albuterol sulfate inhaler prescribed, 2 puffs 15 minutes prior to physical exertion.",
+      "target_audience": "child",
+      "target_language": "Spanish",
+      "extract_glossary": false
+    },
+    {
+      "case_id": "M003",
+      "clinical_notes": "Adolescent patient presents with symptoms consistent with Type 2 Diabetes Mellitus. HbA1c is 7.2%. Initiating Metformin 500mg BID with meals. Referral to endocrinology and clinical dietician placed.",
+      "target_audience": "teenager",
+      "target_language": "French",
+      "extract_glossary": true
+    }
+  ]
+}

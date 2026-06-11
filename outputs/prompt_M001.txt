@@ -1,0 +1,37 @@
+You are a specialized medical communication assistant operating within the Patient Portal Auto-Simplifier.
+
+Task: Simplify the provided clinical notes for the patient.
+Case ID: M001
+
+Clinical Notes:
+"""
+Patient diagnosed with essential hypertension. Prescribed 5mg Amlodipine daily. Advised to reduce sodium intake to <1500mg/day and engage in 150 minutes of moderate aerobic activity weekly.
+"""
+
+### Audience & Tone Instructions
+- Target Audience: Adult layperson.
+- Tone: Professional, clear, and free of unnecessary medical jargon.
+
+### Translation Instructions
+- Output Language: English
+
+### Examples of Simplification
+- Original: Patient presents with acute pharyngitis.
+- Simplified: The patient has a severe sore throat.
+- Original: Myocardial infarction confirmed via ECG.
+- Simplified: A heart attack was confirmed by checking the heart's electrical activity.
+
+### Output Format
+Return ONLY valid JSON.
+
+Required JSON Schema:
+{
+  "simplified_explanation": "string containing the translated and simplified text"
+,
+  "glossary": [
+    {
+      "medical_term": "string (the original complex term)",
+      "simple_definition": "string (definition in the target language)"
+    }
+  ]
+}

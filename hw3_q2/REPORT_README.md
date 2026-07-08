@@ -14,7 +14,7 @@ python -m src.train --epochs 50 --margin 0.2 --seed 13
 
 ### 3. Objective Function Explanation
 
-The contrastive hinge loss function calculates a penalty based on the relative cosine similarities of a query to a positive document and a negative document. The mathematical formulation is:
+The contrastive hinge loss function calculates a penalty based on the relative cosine similarities of a query to a positive document and a negative document. The formula is:
 
 $$Loss = \max(0, \text{margin} + S(q, d_{negative}) - S(q, d_{positive}))$$
 
@@ -28,9 +28,9 @@ where $S$ represents the cosine similarity function. The loss evaluates to zero 
 ### 5. Failed Retrieval Query
 
 * **Query:** Test query T06 (After training)
-* **Result:** The gold document (D13) was ranked at position 3 with a score of 0.398, subordinate to D06 (0.452) and D21 (0.447).
-* **Analysis:** This failure is attributable to the model size and architectural limitations. The default model utilizes small, mean-pooled word embeddings devoid of attention mechanisms or contextual awareness. Consequently, it prioritizes superficial token overlap over complex semantic alignment, failing to distinguish between documents sharing similar vocabulary but disparate meanings.
+* **Result:** The gold document (D13) was ranked at position 3 with a score of 0.398, below D06 (0.452) and D21 (0.447).
+* **Analysis:** This failure can be attributed to the model size and architectural limitations. The default model utilizes small word embeddings without attention mechanisms or contextual awareness. Consequently, it prioritizes token overlap over complex semantic alignment, failing to distinguish between documents sharing similar vocabulary but different meanings.
 
 ### 6. Experimental Observation
 
-The `bow` (Bag-of-Words) model achieved maximum performance metrics (Recall@1 = 1.0, Recall@3 = 1.0, MRR = 1.0) on both dev and test splits prior to any parameter updates. This demonstrates that the retrieval logic in this specific, constrained dataset is solvable entirely through exact keyword frequency matching. Conversely, the default continuous-vector embedding model required 50 epochs of training to reach suboptimal test metrics (Recall@1 = 0.875), establishing that dense representations introduce unnecessary complexity for this specific collection compared to a naive lexical baseline.
+The `bow` (Bag-of-Words) model achieved maximum performance metrics (Recall@1 = 1.0, Recall@3 = 1.0, MRR = 1.0) on both dev and test splits prior to any parameter updates. This demonstrates that the retrieval logic in this specific, constrained dataset is solvable entirely through exact keyword frequency matching. On the other hand, the default continuous-vector embedding model required 50 epochs of training to reach mediocre test metrics (Recall@1 = 0.875), which means that dense representations introduce unnecessary complexity for this specific collection compared to a naive lexical baseline.

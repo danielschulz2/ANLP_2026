@@ -41,7 +41,7 @@ def retrieve(query, top_n=3):
 
 
 def main():
-    dataset = load_dataset("cat-db-fiction-confusing.txt")
+    dataset = load_dataset("cat-facts.txt")
 
     print("Step 1 Checkpoint")
     print(f"Total chunks: {len(dataset)}")

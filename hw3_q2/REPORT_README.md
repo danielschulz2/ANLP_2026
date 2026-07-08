@@ -14,23 +14,23 @@ python -m src.train --epochs 50 --margin 0.2 --seed 13
 
 ### 3. Objective Function Explanation
 
-The contrastive hinge loss function calculates a penalty based on the relative cosine similarities of a query to a positive document and a negative document. The formula is:
+The contrastive hinge loss function checks the cosine similarity scores between a query, a correct document, and an incorrect document. The formula is:
 
 $$Loss = \max(0, \text{margin} + S(q, d_{negative}) - S(q, d_{positive}))$$
 
-where $S$ represents the cosine similarity function. The loss evaluates to zero if the positive document's similarity score exceeds the negative document's score by at least the specified margin. If this condition is not met, a positive loss is incurred. Optimization of this objective pulls positive documents closer to the query vector while pushing negative documents further away.
+where $S$ is the cosine similarity score. The loss is zero if the correct document scores higher than the incorrect document by at least the margin amount. If it does not, the model gets a penalty. Training with this loss function forces the model to push correct documents closer to the query and push incorrect documents further away.
 
 ### 4. Successful Retrieval Query
 
-* **Query:** "Which Luna has rabbit food and a yellow collar?"
-* **Result:** Successfully retrieved the correct document (D09) at Rank 1 with a cosine similarity score of 0.741.
+* **Query:** "What are the requirements for operating the laser cutter in the metal workshop?"
+* **Result:** The model correctly ranked document D15 at position 1 with a score of 0.530.
 
 ### 5. Failed Retrieval Query
 
-* **Query:** Test query T06 (After training)
-* **Result:** The gold document (D13) was ranked at position 3 with a score of 0.398, below D06 (0.452) and D21 (0.447).
-* **Analysis:** This failure can be attributed to the model size and architectural limitations. The default model utilizes small word embeddings without attention mechanisms or contextual awareness. Consequently, it prioritizes token overlap over complex semantic alignment, failing to distinguish between documents sharing similar vocabulary but different meanings.
+* **Query:** "Which library provides group study rooms that can be booked online?"
+* **Result:** The model incorrectly ranked D02 at position 1 with a score of 0.579, even though D02 states that the rooms "cannot be booked online". D01 was ranked second.
+* **Failure Analysis:** This failure happens because of the model's basic design. It uses small word embeddings and takes their average, without looking at word order or grammar. It only checks for matching words like "library", "study rooms", "booked", and "online". Because all the words are averaged into a single vector, the model cannot understand negative phrases like "cannot be". It gives a high score simply because the vocabulary overlaps.
 
 ### 6. Experimental Observation
 
-The `bow` (Bag-of-Words) model achieved maximum performance metrics (Recall@1 = 1.0, Recall@3 = 1.0, MRR = 1.0) on both dev and test splits prior to any parameter updates. This demonstrates that the retrieval logic in this specific, constrained dataset is solvable entirely through exact keyword frequency matching. On the other hand, the default continuous-vector embedding model required 50 epochs of training to reach mediocre test metrics (Recall@1 = 0.875), which means that dense representations introduce unnecessary complexity for this specific collection compared to a naive lexical baseline.
+The Bag-of-Words (`bow`) model scored perfectly (Recall@1 = 1.0, Recall@3 = 1.0, MRR = 1.0) on the test split before any training was done. The default embedding model needed 50 epochs of training just to reach a Recall@1 of 0.875. This shows that for this small set of documents, exact word matching works perfectly. Using dense embeddings adds extra complexity that the small model cannot handle well.
